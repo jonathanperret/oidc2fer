@@ -79,3 +79,8 @@ db.sqlite3
 .vscode/
 *.iml
 .devcontainer/
+
+/certs
+/satosa/run/
+/satosa/client_db.json
+/satosa.env

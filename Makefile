@@ -247,6 +247,19 @@ clean: ## restore repository state as it was freshly cloned
 	git clean -idx
 .PHONY: clean
 
+certs:
+	rm -rf ./certs
+	rm -rf satosa/run
+	mkdir -p ./certs
+	cp "$$(mkcert --CAROOT)/rootCA.pem" ./certs/mkcert-root-ca.pem
+	mkcert -key-file ./certs/key.pem -cert-file ./certs/cert.pem satosa.traefik.me oidc-test-client.traefik.me
+.PHONY: certs
+
+oidc-test:
+	docker compose down -v --remove-orphans
+	docker compose up --wait
+	python -mwebbrowser -n https://oidc-test-client.traefik.me
+
 help:
 	@echo "$(BOLD)OIDC2FER Makefile"
 	@echo "Please use 'make $(BOLD)target$(RESET)' where $(BOLD)target$(RESET) is one of:"
